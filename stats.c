@@ -33,6 +33,12 @@ struct Stats compute_statistics(const float* numberset, int setlength) {
 	    }
 	    s.average = (sum / setlength);
     }
+    else
+    {
+	s.min = NaN;
+	s.max = NaN;
+	S.average = NaN;
+    }
     // Return the structure with the computed min, max and average values
     return s;    
 }
@@ -44,9 +50,15 @@ void check_and_alert(float maxThreshold, alerter_funcptr alerters[], struct Stat
     if(computedStats.max > maxThreshold)
     {
 	// Raise email alert
-        alerters[0]();
+	if(alerters[0] != (void*)0)
+	{
+            alerters[0]();
+	}
 	// Raise LED alert
-        alerters[1]();
+	if(alerters[1] != (void*)0)
+	{
+            alerters[1]();
+	}
     }	
 }
 	
