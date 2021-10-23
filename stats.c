@@ -7,9 +7,8 @@ int ledAlertCallCount = 0;
 // Function to compute min, max and average from the input array of values
 struct Stats compute_statistics(const float* numberset, int setlength) {
     struct Stats s;
-    float indexedArrayElement,sum;
+    float sum;
     int arrayIndex;
-    indexedArrayElement = 0;
     sum = 0;
     arrayIndex = 0;
     s.average = 0;
