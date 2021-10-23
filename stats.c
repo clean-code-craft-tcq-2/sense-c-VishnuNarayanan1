@@ -1,5 +1,5 @@
 #include "stats.h"
-#include "math.h"
+#include <math.h>
 
 //Global variables shared by other .c files
 int emailAlertCallCount = 0;
