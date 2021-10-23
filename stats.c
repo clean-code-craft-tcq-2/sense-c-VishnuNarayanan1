@@ -1,4 +1,5 @@
 #include "stats.h"
+#include "math.h"
 
 //Global variables shared by other .c files
 int emailAlertCallCount = 0;
@@ -35,9 +36,9 @@ struct Stats compute_statistics(const float* numberset, int setlength) {
     }
     else
     {
-	s.min = 0;
-	s.max = 0;
-	s.average = (0/0);
+	s.min = NAN;
+	s.max = NAN;
+	s.average = NAN;
     }
     // Return the structure with the computed min, max and average values
     return s;    
