@@ -1,47 +1,48 @@
-#include "stats.h"
 #include <math.h>
+#include "stats.h"
 
-//Global variables shared by other .c files
+
+//Global variables shared by other .c files.
 int emailAlertCallCount = 0;
 int ledAlertCallCount = 0;
 
-// Function to compute min, max and average from the input array of values
+// Function to compute min, max and average from the input array of values.
 struct Stats compute_statistics(const float* numberset, int setlength) {
-    struct Stats s;
-    float sum;
-    int arrayIndex;
-    sum = 0;
-    arrayIndex = 0;
-    s.average = 0;
-    s.min = 0;
-    s.max = 0;
+    struct Stats computedStatistics;
+    computedStatistics.min = 0;
+    computedStatistics.max = 0;
+    computedStatistics.average = 0;
+    float sum = 0;
+    int arrayIndex = 0;
 	
+    // Check if the array passed is not NULL.
     if(numberset != (void *) 0)
     {
-	    s.min = s.max = numberset[0];
-	    for(arrayIndex=0; arrayIndex<setlength; arrayIndex++)
+    	computedStatistics.min = computedStatistics.max = numberset[0];
+    	for(arrayIndex=0; arrayIndex<setlength; arrayIndex++)
+    	{
+	    if(computedStatistics.min>numberset[arrayIndex])
 	    {
-		if(s.min>numberset[arrayIndex])
-		{
-		    s.min=numberset[arrayIndex]; 
-		}
-		if(s.max<numberset[arrayIndex])
-		{
-		    s.max=numberset[arrayIndex];
-		}
-		// Sum to calculate average subsequently 
-		sum = (sum + numberset[arrayIndex]);
+	        computedStatistics.min=numberset[arrayIndex]; 
 	    }
-	    s.average = (sum / setlength);
+	    if(computedStatistics.max<numberset[arrayIndex])
+	    {
+	        computedStatistics.max=numberset[arrayIndex];
+	    }
+	    // Sum to calculate average subsequently after the for loop termination
+	    sum = (sum + numberset[arrayIndex]);
+        }
+        computedStatistics.average = (sum / setlength);
     }
+    // If the array passed is NULL then set min, max and average values to NAN (Not A Number).
     else
     {
-	s.min = NAN;
-	s.max = NAN;
-	s.average = NAN;
+	computedStatistics.min = NAN;
+	computedStatistics.max = NAN;
+	computedStatistics.average = NAN;
     }
-    // Return the structure with the computed min, max and average values
-    return s;    
+    // Return the structure with the computed min, max and average values.
+    return computedStatistics;    
 }
 
 // Function to check and raise alert based on the computed value and the threshold limit
@@ -50,14 +51,16 @@ void check_and_alert(float maxThreshold, alerter_funcptr alerters[], struct Stat
     // If computedStats.max breaches the maxThreshold value, then raise alert !
     if(computedStats.max > maxThreshold)
     {
-	// Raise email alert
+	// Check if the function pointer is not NULL
 	if(alerters[0] != (void*)0)
 	{
+	    // Raise email alert
             alerters[0]();
 	}
-	// Raise LED alert
+	// Check if the function pointer is not NULL
 	if(alerters[1] != (void*)0)
 	{
+ 	    // Raise LED alert
             alerters[1]();
 	}
     }	
