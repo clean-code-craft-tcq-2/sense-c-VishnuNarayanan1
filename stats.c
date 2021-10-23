@@ -12,22 +12,27 @@ struct Stats compute_statistics(const float* numberset, int setlength) {
     sum = 0;
     arrayIndex = 0;
     s.average = 0;
-    s.min = s.max = numberset[0];
-    
-    for(arrayIndex=0; arrayIndex<setlength; arrayIndex++)
+    s.min = 0;
+    s.max = 0;
+	
+    if(numberset != (void *) 0)
     {
-        if(s.min>numberset[arrayIndex])
-        {
-	    s.min=numberset[arrayIndex]; 
-        }
-	if(s.max<numberset[arrayIndex])
-        {
-	    s.max=numberset[arrayIndex];
-        }
-	// Sum to calculate average subsequently 
-        sum = (sum + numberset[arrayIndex]);
+	    s.min = s.max = numberset[0];
+	    for(arrayIndex=0; arrayIndex<setlength; arrayIndex++)
+	    {
+		if(s.min>numberset[arrayIndex])
+		{
+		    s.min=numberset[arrayIndex]; 
+		}
+		if(s.max<numberset[arrayIndex])
+		{
+		    s.max=numberset[arrayIndex];
+		}
+		// Sum to calculate average subsequently 
+		sum = (sum + numberset[arrayIndex]);
+	    }
+	    s.average = (sum / setlength);
     }
-    s.average = (sum / setlength);
     // Return the structure with the computed min, max and average values
     return s;    
 }
