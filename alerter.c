@@ -1,4 +1,5 @@
 #include "stats.h"
+#include "alerter.h"
 
 //Function to capture the number of times email alert has been received
 void emailAlerter(void)
